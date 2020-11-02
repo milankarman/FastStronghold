@@ -8,43 +8,40 @@ namespace speedrun_stronghold_finder
     public class Program
     {
         private static bool verbose = true;
-        private static List<Coordinates> throws = new List<Coordinates>();
-
-        public class Coordinates
-        {
-            public double x;
-            public double y;
-            public double z;
-
-            public double angle;
-            public double slope;
-
-            public Coordinates(double x, double y, double z, double angle)
-            {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                this.angle = angle;
-                this.slope = Math.Tan(-angle * Math.PI / 180);
-            }
-
-            public double GetLine()
-            {
-                return x - slope * z;
-            }
-
-            public override string ToString()
-            {
-                return $"X: {x} Y: {y} Z: {z} Angle: {angle}";
-            }
-        }
+        private static List<Point> throws = new List<Point>();
 
         public static void Main(string[] args)
         {
-            string lastClipboardString = ClipboardService.GetText() == null ? String.Empty : ClipboardService.GetText();
+            WindowManager.InitializeWindow();
+            ClearConsole();
 
-            Console.WriteLine($"Speedrunning Stronghold Finder Pre-alpha version by Milan Karman");
-            Console.WriteLine($"Awaiting clipboard...");
+            Thread clipboardDetectionThread = new Thread(ClipboardDetectionThread);
+            clipboardDetectionThread.Start();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "restart")
+                {
+                    throws.Clear();
+                    ClearConsole();
+                }
+            }
+
+        }
+
+        private static void ClearConsole()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"[Speedrunning Stronghold Finder by Milan Karman]");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private static void ClipboardDetectionThread()
+        {
+            string lastClipboardString = ClipboardService.GetText() == null ? String.Empty : ClipboardService.GetText();
 
             while (true)
             {
@@ -56,14 +53,24 @@ namespace speedrun_stronghold_finder
                     {
                         try
                         {
-                            Coordinates coordinates = CoordinatesFromCommand(clipboardString);
-                            throws.Add(coordinates);
+                            throws.Add(MinecraftCommandParser.PointFromCommand(clipboardString));
+                            ClearConsole();
 
-                            Console.WriteLine($"Throw coordinates: {coordinates.ToString()}");
-
-                            if (throws.Count >= 2)
+                            if (throws.Count >= 1)
                             {
-                                CalculateStrongholdLocation(throws[throws.Count - 2], throws[throws.Count - 1]);
+                                Console.WriteLine($"Throw 1: {throws[0].ToString()}");
+                            }
+
+                            if (throws.Count >=2)
+                            {
+                                Console.WriteLine($"Throw 2: {throws[1].ToString()}");
+                                (double x, double z) = CalculateStrongholdLocation(throws[throws.Count - 2], throws[throws.Count - 1]);
+
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine($"Stronghold: X: {Math.Round(x)} Z: {Math.Round(z)}");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                
+                                throws.RemoveAt(0);
                             }
                         }
                         catch (Exception ex)
@@ -84,24 +91,12 @@ namespace speedrun_stronghold_finder
             }
         }
 
-        private static Coordinates CoordinatesFromCommand(string input)
-        {
-            string[] coordsStrings = input.Replace(".", ",").Split("@s ")[1].Split(" ");
-
-            double x = Convert.ToDouble(coordsStrings[0]);
-            double y = Convert.ToDouble(coordsStrings[1]);
-            double z = Convert.ToDouble(coordsStrings[2]);
-            double angle = Convert.ToDouble(coordsStrings[3]);
-
-            return new Coordinates(x, y, z, angle);
-        }
-
-        private static void CalculateStrongholdLocation(Coordinates throw1, Coordinates throw2)
+        private static (double, double) CalculateStrongholdLocation(Point throw1, Point throw2)
         {
             double z = (throw2.GetLine() - throw1.GetLine()) / (throw1.slope - throw2.slope);
             double x = throw1.slope * z + throw1.GetLine();
 
-            Console.WriteLine($"Stronghold coordinates: X: {x} Z: {z}");
+            return (x, z);
         }
     }
 }
