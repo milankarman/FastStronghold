@@ -7,8 +7,8 @@
   <p align="center">
     <i>A Minecraft stronghold triangulation tool, optimized for speedrunning.</i>
     <br />
-    <a href="">Video Tutorial</a>
-    -
+    <!-- <a href="">Video Tutorial (To be done)</a>
+    - -->
     <a href="https://github.com/milankarman/fast-stronghold/issues">Report Bug</a>
     -
     <a href="https://github.com/milankarman/fast-stronghold/issues">Request Feature</a>
@@ -64,7 +64,7 @@ Make sure you have FastStronghold open before starting your run so you don't hav
 2. 1.Following that the coordinates at which you did your throw should show up in FastStronghold. For the second throw we want to move a good amount off from the angle that our first throw gave us. There are multiple ways you can move off this angle in a speedrun, like turning 90° away from the angle in either direction, walking about 200 blocks in that direction to do your second throw. Or following the angle of your first throw, but changing it by ~10° in either direction and doing your next throw once you start nearing the region where the stronghold can spawn. The latter is the method I recommend and it is illustrated in the image below.
 
 <div align="center">
-  <img src="images/triangulatioN_explanation.png" alt="Logo" width="60%" height="auto">
+  <img src="images/triangulation_explanation.png" alt="Triangulation explanation" width="60%" height="auto">
   <br />
   <i>The actual angle you walk can be less steep than this example and results should still be accurate as long as you align your corsshair to the ender eye well.</i>
 </div>
