@@ -5,7 +5,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>fast_strongyhold</RootNamespace>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>images/icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

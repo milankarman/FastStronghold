@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading;
 using TextCopy;
@@ -38,6 +39,9 @@ public class Program
                     Console.SetBufferSize(60, 10);
                     Console.SetWindowSize(60, 10);
                     Text.Update();
+                    break;
+                case ConsoleKey.H:
+                    Process.Start("explorer.exe", "https://github.com/milankarman/fast-stronghold#usage");
                     break;
                 default:
                     break;
