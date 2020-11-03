@@ -1,5 +1,6 @@
 using System;
 
+// Class to keep track of points and angles, with helper methods to do math with them.
 public class Point
 {
     public double x;
@@ -14,7 +15,10 @@ public class Point
         this.x = x;
         this.y = y;
         this.z = z;
+
+        // Normalize minecraft angle (it keeps going after 360 by default)
         this.angle = angle % 360;
+
         this.slope = Math.Tan(-angle * Math.PI / 180);
     }
 
@@ -23,6 +27,7 @@ public class Point
         return x - slope * z;
     }
 
+    // Get the angle as it is displayed in game (for navigation purposes)
     private double GetInGameAngle()
     {
         if (angle > 180)

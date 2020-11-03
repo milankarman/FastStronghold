@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+
 public static class WindowManager
 {
     [DllImport("user32.dll", SetLastError = true)]
@@ -36,6 +37,7 @@ public static class WindowManager
     public const int SC_MAXIMIZE = 0xF030;
     public const int SC_SIZE = 0xF000;
 
+    // Sets the window to always be on top
     public static void SetAlwaysOnTop()
     {
         IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
@@ -43,6 +45,7 @@ public static class WindowManager
         SetWindowPos(hWnd, new IntPtr(HWND_TOPMOST), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
 
+    // Disables quick edit on the console window to avoid the program being stalled by awaiting edit inputs
     public static void DisableQuickEdit()
     {
         IntPtr consoleHandle = GetStdHandle(STD_INPUT_HANDLE);

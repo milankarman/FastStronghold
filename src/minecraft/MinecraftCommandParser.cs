@@ -2,6 +2,7 @@ using System;
 
 public static class MinecraftCommandParser
 {
+    // Parses a F3+C command and turns it into a Point class instance
     public static Point PointFromCommand(string input)
     {
         string[] coordsStrings = input.Replace(".", ",").Split("@s ")[1].Split(" ");

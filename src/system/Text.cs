@@ -2,11 +2,13 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 
+// Class for rendering text to the console window
 public static class Text
 {
-    private const string TITLE = "FastStronghold by Milan Karman";
+    private const string TITLE = "FastStronghold 1.0.0 by Milan Karman";
     private const string CONTROLS = "[R] Reset Throws - [S] Reset Window Size - [H] Help";
 
+    // List to track lines to be output on the screen
     private static List<(string text, ConsoleColor color)> lines = new List<(string text, ConsoleColor color)>();
 
     public static void Write(string text, ConsoleColor color = ConsoleColor.White)
@@ -26,6 +28,7 @@ public static class Text
         Console.Clear();
         Console.WriteLine();
 
+        // Build the window header and write it
         StringBuilder sb = new StringBuilder();
 
         sb.Append(new String('-', (int)((Console.BufferWidth - TITLE.Length) / 2) - 1));
@@ -36,11 +39,13 @@ public static class Text
         Console.WriteLine(sb.ToString());
         Console.ForegroundColor = ConsoleColor.White;
 
+        // Default message if no other line is output
         if (lines.Count <= 0)
         {
             Console.WriteLine("Ready and awaiting clipboard...");
         }
 
+        // Fill the console with written lines and pad it with blank lines so the controls can always be at the bottom
         for (int i = 0; i < Console.BufferHeight - 4; i++)
         {
             if (i < lines.Count)
