@@ -128,4 +128,4 @@ Coming soon...
 
 ## Download
 
-Download the most recent release [here](releases). Simply open the zip file and extract the full "FastStronghold" folder to a location you want to keep it. Then you can run the FastStronghold.exe file inside the folder, and you're up and running!
+Download the most recent release [here](../../releases). Simply open the zip file and extract the full "FastStronghold" folder to a location you want to keep it. Then you can run the FastStronghold.exe file inside the folder, and you're up and running!
