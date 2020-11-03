@@ -79,6 +79,8 @@ The built in nether portal tracking works the same way, reading the coordinates 
 
 FastStronghold **never** accesses Minecraft's game memory, and anything it can do could be realistically done using math during runs by a stream chatter or backseating friend.
 
+It is important to note that the speedrunning rules are subject to change and there are voices against external programs reading from the clipboard. However with the official ruleset at this moment this tool is completely legal.
+
 ## Usage
 
 ### Stronghold Triangulation
@@ -105,7 +107,7 @@ Make sure that you have FastStronghold open before you start your speedrun. Now 
 
 ### Video Tutorial
 
-Coming soon...
+[Click here to watch a video tutorial on how to install and use FastStronghold.](https://www.youtube.com/watch?v=EpxYE8cbNlY)
 
 ### Troubleshooting
 
