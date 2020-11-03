@@ -9,9 +9,9 @@
     <br />
     <!-- <a href="">Video Tutorial (To be done)</a>
     - -->
-    <a href="https://github.com/milankarman/fast-stronghold/issues">Report Issue</a>
+    <a href="./issues">Report Issue</a>
     -
-    <a href="https://github.com/milankarman/fast-stronghold/issues">Request Feature</a>
+    <a href="./issues">Request Feature</a>
   </p>
 </p>
 
@@ -128,4 +128,4 @@ Coming soon...
 
 ## Download & Installation
 
-To be added
+Download the most recent release [here](releases). Simply open the zip file and extract the full "FastStronghold" folder to a location you want to keep it. Then you can run the FastStronghold.exe file inside the folder, and you're up and running!
