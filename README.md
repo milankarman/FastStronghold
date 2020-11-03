@@ -17,7 +17,7 @@
 
 ## Table of Contents
 
-* [About](#about-the-project)
+* [About](#about)
   * [Features](#features)
   * [Screenshots](#screenshots)
   * [Legality](#legality)
@@ -26,12 +26,14 @@
   * [Nether Portal Tracking](#nether-portal-tracking)
   * [Video Tutorial](#video-tutorial)
   * [Troubleshooting](#troubleshooting)
-* [Download/Installation](#download/installation)
+* [Download & Installation](#download-&-installation)
 
 
 ## About
 
 There are various stronghold finder tools already available but most of them are not made for the purpose of speedrunning. However FastStronghold is optimized with speedrunning first and foremost, being fast to use and super optimized so it saves you as much time as possible when speedrunning.
+
+Using FastStronghold can save you time and lowering chances of your speedruns being killed by eye breaks by only requiring 2 eye of ender throws and removing manual triangulation steps. All while being extremely accurate if used properly.
 
 ### Features
 * This program reads directly from clipboard means there is no need to manually input coordinates.
@@ -42,7 +44,29 @@ There are various stronghold finder tools already available but most of them are
 
 ### Screenshots
 
-To be done
+<p align="center">
+  <img src="images/triangulation_screenshot.png" alt="Triangulation view" width="auto" height="192">
+  <br />
+    <i>FastStronghold calculating the stronghold location from two throws.</i>
+  <br />
+  <br />
+  <img src="images/nether_screenshot.png" alt="Nether portal tracking view" width="auto" height="192">
+    <br />
+    <i>FastStronghold keeping track of your nether portal location and calculating the way back.</i>
+  <br />
+  <br />
+  <img src="images/triangulation_demo.gif" alt="Triangulation gif" width="auto" height="300">
+  <br />
+    <i>FastStronghold's result matching the in game stronghold location.</i>
+  <br />
+  <br />
+  <img src="images/nether_demo.gif" alt="Nether portal tracking gif gif" width="auto" height="300">
+  <br />
+  <i>Nether portal tracker showing the way back to your portal.</i>
+  <br />
+  <b>Note: the FastStronghold window can be placed anywhere on your desktop or secondary monitors.</b>
+</p>
+
 
 ### Legality
 
@@ -52,6 +76,8 @@ FastStronghold finds the stronghold by reading the coordinates noted in the comm
 > A: Yes, but no. Any stronghold/structure finder website that asks for seed input is not allowed. You are not allowed to use or see the seed of the world you’re in. However, stronghold calculators that take 2 angles as an input and locates the stronghold using math are allowed.
 
 The built in nether portal tracking works the same way, reading the coordinates from the clipboard when you press F3+C in the nether and calculating the angle towards the first coordinates you set when you entered the nether.
+
+FastStronghold **never** accesses Minecraft's game memory.
 
 ## Usage
 
@@ -66,7 +92,7 @@ Make sure you have FastStronghold open before starting your run so you don't hav
 <div align="center">
   <img src="images/triangulation_explanation.png" alt="Triangulation explanation" width="60%" height="auto">
   <br />
-  <i>The actual angle you walk can be less steep than this example and results should still be accurate as long as you align your corsshair to the ender eye well.</i>
+  <i>The actual angle you walk can be less steep than this example and the results should still be accurate as long as you align your corsshair to the ender eye well. I would recommend running on your off-angle for about 1400 blocks before doing your second throw.</i>
 </div>
 <br />
 3. After you have travelled to your spot to do your second throw you are going to stay still once again, do your throw then point your crosshair directly at the center of the floating eye and press F3+C. FastStronghold will once again update and tell you the triangulated coordinates of the stronghold. Simply head over there and dig down and the stronghold should be right there.
@@ -99,6 +125,7 @@ Coming soon...
 > *I encountered a different issue*
 >
 > Please see this repositories issues page and if your issue isn't in there already, make a new one. Thank you.
-## Download/Installation
 
-To be done
+## Download & Installation
+
+To be added
