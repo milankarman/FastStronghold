@@ -5,8 +5,8 @@ using System.Collections.Generic;
 // Class for rendering text to the console window
 public static class Text
 {
-    private const string TITLE = "FastStronghold 1.0.0 by Milan Karman";
-    private const string CONTROLS = "[R] Reset Throws - [S] Reset Window Size - [H] Help";
+    private const string TITLE = "FastStronghold 1.0.1 by Milan Karman";
+    private const string CONTROLS = "[R] Reset - [S] Reset Window Size - [H] Help";
 
     // List to track lines to be output on the screen
     private static List<(string text, ConsoleColor color)> lines = new List<(string text, ConsoleColor color)>();

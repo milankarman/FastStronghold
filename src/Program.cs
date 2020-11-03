@@ -36,6 +36,7 @@ public class Program
             {
                 case ConsoleKey.R:
                     throws.Clear();
+                    netherPortalPoint = null;
                     Text.Clear();
                     break;
                 case ConsoleKey.S:

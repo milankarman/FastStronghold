@@ -1,16 +1,17 @@
 using System;
+using System.Globalization;
 
 public static class MinecraftCommandParser
 {
     // Parses a F3+C command and turns it into a Point class instance
     public static Point PointFromCommand(string input)
     {
-        string[] coordsStrings = input.Replace(".", ",").Split("@s ")[1].Split(" ");
+        string[] coordsStrings = input.Split("@s ")[1].Split(" ");
 
-        double x = Convert.ToDouble(coordsStrings[0]);
-        double y = Convert.ToDouble(coordsStrings[1]);
-        double z = Convert.ToDouble(coordsStrings[2]);
-        double angle = Convert.ToDouble(coordsStrings[3]);
+        double x = Convert.ToDouble(coordsStrings[0], CultureInfo.InvariantCulture);
+        double y = Convert.ToDouble(coordsStrings[1], CultureInfo.InvariantCulture);
+        double z = Convert.ToDouble(coordsStrings[2], CultureInfo.InvariantCulture);
+        double angle = Convert.ToDouble(coordsStrings[3], CultureInfo.InvariantCulture);
 
         return new Point(x, y, z, angle);
     }
