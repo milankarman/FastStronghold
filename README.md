@@ -9,9 +9,9 @@
     <br />
     <!-- <a href="">Video Tutorial (To be done)</a>
     - -->
-    <a href="./issues">Report Issue</a>
+    <a href="../../issues">Report Issue</a>
     -
-    <a href="./issues">Request Feature</a>
+    <a href="../../issues">Request Feature</a>
   </p>
 </p>
 
@@ -26,7 +26,7 @@
   * [Nether Portal Tracking](#nether-portal-tracking)
   * [Video Tutorial](#video-tutorial)
   * [Troubleshooting](#troubleshooting)
-* [Download & Installation](#download-&-installation)
+* [Download](#download)
 
 
 ## About
@@ -43,7 +43,7 @@ Using FastStronghold can save you time and lower the chance of your runs being k
 * A very minimalistic design showing you only what you need to know without distractions.
 
 ### Screenshots
-
+<br />
 <p align="center">
   <img src="images/triangulation_screenshot.png" alt="Triangulation view" width="auto" height="192">
   <br />
@@ -126,6 +126,6 @@ Coming soon...
 >
 > Please see this repositories issues page and if your issue isn't in there already, make a new one. Thank you.
 
-## Download & Installation
+## Download
 
 Download the most recent release [here](releases). Simply open the zip file and extract the full "FastStronghold" folder to a location you want to keep it. Then you can run the FastStronghold.exe file inside the folder, and you're up and running!
