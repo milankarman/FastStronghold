@@ -103,7 +103,7 @@ After doing a run where you have used F3+C it is recommended to reset your throw
 
 ### Nether Portal Tracking
 
-Make sure that you have FastStronghold open before you start your speedrun. Now as soon as you enter the nether hit F3+C. FastStronghold will remember that location as your portal location and it will be shown on the FastStronghold display. Now any time you press F3+C the FastStronghold display will calculate in what direction your portal is and it will tell you the height difference between you and your portal.
+Make sure that you have FastStronghold open before you start your speedrun. Now as soon as you enter the nether hit F3+C. FastStronghold will remember that location as your portal location and it will be shown on the FastStronghold display. Now any time you press F3+C while still in the nether FastStronghold will calculate and display in what direction your portal is and it will tell you the height difference between you and your portal.
 
 ### Video Tutorial
 
@@ -126,7 +126,7 @@ Make sure that you have FastStronghold open before you start your speedrun. Now 
 
 > *I encountered a different issue!*
 >
-> Please see this repositories issues page and if your issue isn't in there already, make a new one. Thank you.
+> Please see this repositories issues page and if your issue isn't in there already, make a new one. If possible, please include the log.txt file that is located within your FastStronghold folder. Thank you.
 
 ## Download
 

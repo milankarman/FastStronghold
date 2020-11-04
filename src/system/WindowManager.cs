@@ -32,7 +32,6 @@ public static class WindowManager
     private const int HWND_NORMAL = -0;
     private const int SWP_NOMOVE = 0x0002;
     private const int SWP_NOSIZE = 0x0001;
-    private const int MF_BYCOMMAND = 0x00000000;
 
     public const int SC_MAXIMIZE = 0xF030;
     public const int SC_SIZE = 0xF000;

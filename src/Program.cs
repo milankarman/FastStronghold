@@ -12,45 +12,76 @@ public class Program
 
     public static void Main(string[] args)
     {
-        // Set proper window size and title
-        Console.Title = "FastStronghold";
-        Console.SetWindowSize(1, 1);
-        Console.SetBufferSize(60, 10);
-        Console.SetWindowSize(60, 10);
-        WindowManager.SetAlwaysOnTop();
-        WindowManager.DisableQuickEdit();
 
-        // Render default text
-        Text.Update();
-
-        // Start a new thread that checks the clipboard and does the required math
-        Thread clipboardDetectionThread = new Thread(ClipboardDetectionThread);
-        clipboardDetectionThread.Start();
-
-        // Check for user input and handle each key appropriately
-        while (true)
+        try
         {
-            ConsoleKeyInfo key = Console.ReadKey();
+            Logger.Log("Application started.");
+            
+            // Set proper window size and title
+            Console.Title = "FastStronghold";
+            Console.SetWindowSize(1, 1);
+            Console.SetBufferSize(60, 10);
+            Console.SetWindowSize(60, 10);
 
-            switch (key.Key)
+            try
             {
-                case ConsoleKey.R:
-                    throws.Clear();
-                    netherPortalPoint = null;
-                    Text.Clear();
-                    break;
-                case ConsoleKey.S:
-                    Console.SetWindowSize(1, 1);
-                    Console.SetBufferSize(60, 10);
-                    Console.SetWindowSize(60, 10);
-                    Text.Update();
-                    break;
-                case ConsoleKey.H:
-                    Process.Start("explorer.exe", "https://github.com/milankarman/fast-stronghold#usage");
-                    break;
-                default:
-                    break;
+                WindowManager.SetAlwaysOnTop();
             }
+            catch (Exception ex)
+            {
+                Logger.Log("Failed to set the window always on top.");
+                Logger.Log(ex);
+            }
+
+            try
+            {
+                WindowManager.DisableQuickEdit();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log("Failed to disable QuickEdit.");
+                Logger.Log(ex);
+            }
+
+            // Render default text
+            Text.Update();
+
+            // Start a new thread that checks the clipboard and does the required math
+            Thread clipboardDetectionThread = new Thread(ClipboardDetectionThread);
+            clipboardDetectionThread.Start();
+
+            // Check for user input and handle each key appropriately
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.R:
+                        throws.Clear();
+                        netherPortalPoint = null;
+                        Text.Clear();
+                        break;
+                    case ConsoleKey.S:
+                        Console.SetWindowSize(1, 1);
+                        Console.SetBufferSize(60, 10);
+                        Console.SetWindowSize(60, 10);
+                        Text.Update();
+                        break;
+                    case ConsoleKey.H:
+                        Process.Start("explorer.exe", "https://github.com/milankarman/fast-stronghold#usage");
+                        Text.Update();
+                        break;
+                    default:
+                        Text.Update();
+                        break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(ex);
+            throw ex;
         }
     }
 
@@ -124,6 +155,7 @@ public class Program
             if (verbose)
             {
                 Text.Write(ex.ToString(), ConsoleColor.DarkRed);
+                Logger.Log(ex);
             }
         }
     }
@@ -169,6 +201,7 @@ public class Program
             if (verbose)
             {
                 Text.Write(ex.ToString(), ConsoleColor.DarkRed);
+                Logger.Log(ex);
             }
         }
     }
