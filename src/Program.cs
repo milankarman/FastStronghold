@@ -6,23 +6,23 @@ using TextCopy;
 
 public class Program
 {
-    private static bool verbose = true;
     private static List<Point> throws = new List<Point>();
     private static Point netherPortalPoint = null;
 
     public static void Main(string[] args)
     {
-
         try
         {
             Logger.Log("Application started.");
-            
+
             // Set proper window size and title
             Console.Title = "FastStronghold";
             Console.SetWindowSize(1, 1);
             Console.SetBufferSize(60, 10);
             Console.SetWindowSize(60, 10);
 
+            // Because I'm not fully confident in these features working on every machine
+            // they are caught because they are nice to have, but not essential to the program.
             try
             {
                 WindowManager.SetAlwaysOnTop();
@@ -151,12 +151,8 @@ public class Program
         catch (Exception ex)
         {
             Text.Write("Detected F3+C command on clipboard but it failed to parse.", ConsoleColor.Red);
+            Logger.Log(ex);
 
-            if (verbose)
-            {
-                Text.Write(ex.ToString(), ConsoleColor.DarkRed);
-                Logger.Log(ex);
-            }
         }
     }
 
@@ -197,12 +193,7 @@ public class Program
         catch (Exception ex)
         {
             Text.Write("Detected F3+C command on clipboard but it failed to parse.", ConsoleColor.Red);
-
-            if (verbose)
-            {
-                Text.Write(ex.ToString(), ConsoleColor.DarkRed);
-                Logger.Log(ex);
-            }
+            Logger.Log(ex);
         }
     }
 }

@@ -3,11 +3,13 @@ using System.IO;
 
 public static class Logger
 {
+    // Write exception to log file
     public static void Log(Exception ex)
     {
         File.AppendAllText("./log.txt", $"[{DateTime.Now}][{Constants.VERSION}] - {ex.ToString()}{Environment.NewLine}");
     }
 
+    // Write handwritten string to log file
     public static void Log(String text)
     {
         File.AppendAllText("./log.txt", $"[{DateTime.Now}][{Constants.VERSION}] - {text}{Environment.NewLine}");
