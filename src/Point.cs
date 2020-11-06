@@ -34,6 +34,10 @@ public class Point
         {
             return -180 + (angle - 180);
         }
+        else if (angle < -180)
+        {
+            return +180 + (angle + 180);
+        }
 
         return angle;
     }

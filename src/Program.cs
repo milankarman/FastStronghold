@@ -125,7 +125,7 @@ public class Program
         try
         {
             // Parse command into a point object with coordinates
-            throws.Add(MinecraftCommandParser.PointFromCommand(command));
+            throws.Add(MinecraftCommandParser.PointFromF3C(command));
             Text.Clear();
 
             // If we have done one throw, write it out
@@ -141,7 +141,7 @@ public class Program
                 Text.Write("");
 
                 // Find the stronghold coordinates and print them
-                (double x, double z) = MinecraftStrongHoldCalculator.Find(throws[throws.Count - 2], throws[throws.Count - 1]);
+                (double x, double z) = TrigonometryCalculator.GetPointIntersection(throws[throws.Count - 2], throws[throws.Count - 1]);
                 Text.Write($"Stronghold: X: {Math.Round(x)} Z: {Math.Round(z)}", ConsoleColor.Green);
 
                 // Remove our first throw to make room for another if needed
@@ -152,7 +152,6 @@ public class Program
         {
             Text.Write("Detected F3+C command on clipboard but it failed to parse.", ConsoleColor.Red);
             Logger.Log(ex);
-
         }
     }
 
@@ -166,28 +165,28 @@ public class Program
             // If we don't have any coordinates set in the nether yet, register our first F3+C input as our portal location
             if (netherPortalPoint == null)
             {
-                netherPortalPoint = MinecraftCommandParser.PointFromCommand(command);
+                netherPortalPoint = MinecraftCommandParser.PointFromF3C(command);
                 Text.Write($"Nether coordinates: {netherPortalPoint.ToString()}", ConsoleColor.Green);
             }
             else
             {
-                Point currentPoint = MinecraftCommandParser.PointFromCommand(command);
-
-                // Calculate the angle from out current location to our registered portal location
-                double angle = (Math.Atan2(currentPoint.x - netherPortalPoint.x, currentPoint.z - netherPortalPoint.z));
-                angle = (-(angle / Math.PI) * 360.0d) / 2.0 + 180.0;
-
-                if (angle > 180)
-                {
-                    angle = -180 + (angle - 180);
-                }
+                Point currentPoint = MinecraftCommandParser.PointFromF3C(command);
 
                 // Calculate the height difference between our current height and the portal height
-                int heightDifference = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
+                int xDistance = (int)Math.Round(netherPortalPoint.x - currentPoint.x);
+                int yDistance = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
+                int zDistance = (int)Math.Round(netherPortalPoint.z - currentPoint.z);
 
-                Text.Write($"Portal coordinates: {netherPortalPoint.ToString()}", ConsoleColor.Green);
-                Text.Write($"Angle to portal: {Math.Round(angle, 1)}");
-                Text.Write($"Portal is {Math.Abs(heightDifference)}{(heightDifference > 0 ? "▲ above" : "▼ below")} you.");
+                // Calculate the angle from out current location to our registered portal location
+                double angle = Math.Round(TrigonometryCalculator.GetAngleAToB(currentPoint, netherPortalPoint), 1);
+
+                // Calculate the distance between your current location and the nether portal location
+                int distance = (int)Math.Round(TrigonometryCalculator.GetDistanceBetweenPoints(currentPoint, netherPortalPoint));
+
+                Text.Write($"Portal coordinates: {netherPortalPoint}", ConsoleColor.Green);
+                Text.Write($"Coordinate difference: X:{xDistance} Y:{yDistance} Z:{zDistance}");
+                Text.Write($"Angle to portal: {angle}");
+                Text.Write($"Distance to portal: {distance} blocks");
             }
         }
         catch (Exception ex)
