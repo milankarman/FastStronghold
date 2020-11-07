@@ -29,8 +29,13 @@ public class Program
             }
             catch (Exception ex)
             {
-                Text.Write("Failed to read configuration");
+                Text.Write("Failed to read configuration, this needs to be fixed before using the pgoram. See log.txt for more info.", ConsoleColor.Red);
                 Logger.Log(ex);
+
+                while (true)
+                {
+
+                }
             }
 
             // Because I'm not fully confident in these features working on every machine
