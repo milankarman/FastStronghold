@@ -174,7 +174,7 @@ public class Program
             {
                 // Calculate where our current angle hits the average stronghold distance for nether travel
                 (double x, double z) = TrigonometryCalculator.GetLineIntersectionOnCircle(throws[0], 216);
-                Text.Write($"Suggested nether travel location: X:{Math.Round(x)}, Z:{Math.Round(z)}", ConsoleColor.Cyan);
+                Text.Write($"Suggested nether travel location: X:{Math.Round(x)} Z:{Math.Round(z)}", ConsoleColor.Cyan);
             }
 
             // If we have done two throws, write out the second throw and triangulate using the two throws

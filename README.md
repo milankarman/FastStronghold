@@ -24,9 +24,11 @@
 * [Usage](#usage)
   * [Stronghold Triangulation](#stronghold-triangulation)
   * [Nether Portal Tracking](#nether-portal-tracking)
+  * [Suggested Nether Travel](#suggested-nether-travel)
   * [Video Tutorial](#video-tutorial)
   * [Troubleshooting](#troubleshooting)
 * [Download](#download)
+* [Configuration](#configuration)
 
 
 ## About
@@ -40,19 +42,26 @@ Using FastStronghold can save you time and lower the chance of your runs being k
 * Super low RAM and CPU usage making it so you don't have to worry about performance.
 * Built in nether portal tracking to help you keep your bearing easily without having a chat or friend backseating you.
 * Small and always on top so it's easy to fit among your other windows, and always visible.
+* Able to output to a text file you can add as text source on your stream overlays.
 * A very minimalistic design showing you only what you need to know without distractions.
+* Suggested nether travel location after your first eye throw
 
 ### Screenshots
 <br />
 <p align="center">
-  <img src="images/triangulation_screenshot.png" alt="Triangulation view" width="auto" height="192">
+  <img src="images/triangulation_screenshot.png" alt="Triangulation view" width="auto" height="208">
   <br />
     <i>FastStronghold calculating the stronghold location from two throws.</i>
   <br />
   <br />
-  <img src="images/nether_screenshot.png" alt="Nether portal tracking view" width="auto" height="192">
+  <img src="images/nether_screenshot.png" alt="Nether portal tracking view" width="auto" height="208">
     <br />
     <i>FastStronghold keeping track of your nether portal location and calculating the way back.</i>
+  <br />
+  <br />
+  <img src="images/suggested_nether_travel_screenshot.png" alt="Suggested nether travel view" width="auto" height="208">
+    <br />
+    <i>FastStronghold suggesting a good spot to nether travel from after an eye throw is performed.</i>
   <br />
   <br />
   <img src="images/triangulation_demo.gif" alt="Triangulation gif" width="auto" height="300">
@@ -103,11 +112,16 @@ After doing a run where you have used F3+C it is recommended to reset your throw
 
 ### Nether Portal Tracking
 
-Make sure that you have FastStronghold open before you start your speedrun. Now as soon as you enter the nether hit F3+C. FastStronghold will remember that location as your portal location and it will be shown on the FastStronghold display. Now any time you press F3+C while still in the nether FastStronghold will calculate and display in what direction your portal is and it will tell you the height difference between you and your portal.
+Make sure that you have FastStronghold open before you start your speedrun. Now as soon as you enter the nether hit F3+C. FastStronghold will remember that location as your portal location and it will be shown on the FastStronghold display. Now any time you press F3+C while still in the nether FastStronghold will calculate and display in what direction your portal is, how far you are from it and what the coordinate difference between you and your portal is.
+
+### Suggested Nether Travel
+
+FastStronghold will display a suggested Nether Travel location once you throw your first eye of ender in the overworld. If you have the resources to do nether travel, then head back into the nether and head to the coordinates that are displayed. Build another portal and enter the overworld there. If everything went right you should be close to the stronghold. Continue triangulating from there.
 
 ### Video Tutorial
 
-[Click here to watch a video tutorial on how to install and use FastStronghold.](https://www.youtube.com/watch?v=EpxYE8cbNlY)
+[Click here to watch a video tutorial on how to install and use FastStronghold.](https://www.youtube.com/watch?v=EpxYE8cbNlY)  
+*(Note that this video was made for version 1.0 and will be slightly outdated.)*
 
 ### Troubleshooting
 
@@ -122,7 +136,18 @@ Make sure that you have FastStronghold open before you start your speedrun. Now 
 > the eye of ender when doing your throws, and make sure you haven't moved from the spot where you started
 > the eye throw until you have pressed F3+C with the correct angle.  
 > If you are still in a run then you can improvise and do another two throws to try triangulating again.
-> ***If you believe there was an error that wasn't caused by the user, please open an issue.***
+
+> *I got a warning about the angle not having changed much.*
+>
+> This warning is there to tell you that because the angle on your two eye throws haven't changed much it's likely that the end result will be innacurate. Try going off your angle even more and doing another throw.
+
+> *I got a warning about the coordinates not being in a stronghold ring*
+>
+> This is a very bad sign meaning one of your throws was likely completely off. Doing your throws again is very recommended.
+
+> *FastStronghold failed to read the configuration*
+>
+> This means your configuration file might be missing or invalid. You can grab a new configuration file by downloading FastStronghold again. Make sure to extract all of the files and if you edit the config then make sure to use the values in the [configuration section](#Configuration).
 
 > *I encountered a different issue!*
 >
@@ -131,3 +156,15 @@ Make sure that you have FastStronghold open before you start your speedrun. Now 
 ## Download
 
 Download the most recent release [here](../../releases). Simply open the zip file and extract the full "FastStronghold" folder to a location you want to keep it. Then you can run the FastStronghold.exe file inside the folder, and you're up and running!
+
+## Configuration
+
+FastStronghold offers some configuration options you can edit in `config.ini`, which should be located next to your FastStronghold.exe.
+
+
+| Option | Values | Description |
+|--------|--------|-------------|
+| `write_output_to_file` | `true` / `false` | Writes text on FastStronghold screen to a file. To be used for streaming, as an obs text source. |
+| `show_nether_travel_suggestion` | `true` / `false` | Displays a message recommending where to nether travel from on first eye throw. |
+| `always_on_top` | `true` / `false` | Displays the FastStronghold window over other windows |
+| `apply_x4_z4_rule` | `true` / `false` | Applies the 4 4 rule to the calculated stronghold location, making it point to the entry staircase if the stronghold location is accurate. |
