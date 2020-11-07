@@ -19,8 +19,8 @@ public class Program
             // Set proper window size and title
             Console.Title = "FastStronghold";
             Console.SetWindowSize(1, 1);
-            Console.SetBufferSize(60, 10);
-            Console.SetWindowSize(60, 10);
+            Console.SetBufferSize(Constants.BUFFER_SIZE_X, Constants.BUFFER_SIZE_Y);
+            Console.SetWindowSize(Constants.WINDOW_SIZE_X, Constants.WINDOW_SIZE_Y);
 
             // Load all the configuration variables
             try
@@ -90,8 +90,8 @@ public class Program
 
                     case ConsoleKey.W:
                         Console.SetWindowSize(1, 1);
-                        Console.SetBufferSize(60, 10);
-                        Console.SetWindowSize(60, 10);
+                        Console.SetBufferSize(Constants.BUFFER_SIZE_X, Constants.BUFFER_SIZE_Y);
+                        Console.SetWindowSize(Constants.WINDOW_SIZE_X, Constants.WINDOW_SIZE_Y);
                         Text.Update();
                         Config.Initialize();
                         break;
@@ -188,6 +188,31 @@ public class Program
 
                 x = Math.Round(x);
                 z = Math.Round(z);
+
+                // Get the distance from 0, 0 to the stronghold to see if it falls in a stronghold ring
+                int zeroDistance = (int)TrigonometryCalculator.GetDistanceBetweenPoints(new Point(0, 0), new Point(x, z));
+
+                bool inRing = false;
+
+                // Check if the calculated stronghold location falls into a stronghold ring
+                foreach (int[] range in Constants.STRONGHOLD_RINGS)
+                {
+                    if (zeroDistance > range[0] && zeroDistance < range[1])
+                    {
+                        inRing = true;
+                    }
+                }
+
+                if (!inRing)
+                {
+                    Text.Write("Calculated coordinates are not in a stronghold ring.", ConsoleColor.Red);
+                }
+
+                // Check if the angle has changed more than 5 degrees or give a warning of potential innacuracy
+                if ((throws[0].angle + 180) - (throws[1].angle + 180) < 5 && (throws[0].angle + 180) - (throws[1].angle + 180) > -5)
+                {
+                    Text.Write("The angle changed very little, innacuracy likely.", ConsoleColor.Yellow);
+                }
 
                 // Changes to coordinates to be x4 z4 in its chunk, which is where the stronghold staircase generates
                 if (Config.ApplyX4Z4Rule)
