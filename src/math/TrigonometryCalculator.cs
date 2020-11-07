@@ -11,6 +11,7 @@ public static class TrigonometryCalculator
         return (x, z);
     }
 
+    // Gets the angle from one point to the next
     public static double GetAngleAToB(Point a, Point b)
     {
         double angle = (Math.Atan2(a.x - b.x, a.z - b.z));
@@ -24,6 +25,7 @@ public static class TrigonometryCalculator
         return angle;
     }
 
+    // Gets the distance from one point to another
     public static double GetDistanceBetweenPoints(Point a, Point b)
     {
         double xDistance = a.x - b.x;
@@ -35,8 +37,9 @@ public static class TrigonometryCalculator
         return distance;
     }
 
+    // Takes a point and angle and returns the coordinates of where it intersects with a circle of the given radius
     // This formula is thanks to Sharpieman20 (https://github.com/Sharpieman20/Sharpies-Speedrunning-Tools)
-    public static (double, double) GetLineIntersectionOnCircle(Point point)
+    public static (double, double) GetLineIntersectionOnCircle(Point point, double radius)
     {
         double x = point.x;
         double z = point.z;
@@ -49,7 +52,6 @@ public static class TrigonometryCalculator
 
         angle -= 180;
 
-        double o = 216;
         double d = 90 - angle;
 
         double x1 = x / 8;
@@ -60,7 +62,7 @@ public static class TrigonometryCalculator
         double a = 1 + (m1 * m1);
         double b1 = -1 * m1 * x1 + z1;
         double b = 2 * m1 * b1;
-        double co = b1 * b1 - o * o;
+        double co = b1 * b1 - radius * radius;
 
         double xp = ((-1 * b) + (Math.Sign(angle) * Math.Sqrt(b * b -4 * a * co))) / (2 * a);
         double zp = m1 * xp + b1;
