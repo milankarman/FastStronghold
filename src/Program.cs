@@ -22,6 +22,17 @@ public class Program
             Console.SetBufferSize(60, 10);
             Console.SetWindowSize(60, 10);
 
+            // Load all the configuration variables
+            try
+            {
+                Config.Initialize();
+            }
+            catch (Exception ex)
+            {
+                Text.Write("Failed to read configuration");
+                Logger.Log(ex);
+            }
+
             // Because I'm not fully confident in these features working on every machine
             // they are caught because they are nice to have, but not essential to the program.
             if (Config.AlwaysOnTop)
@@ -44,16 +55,6 @@ public class Program
             catch (Exception ex)
             {
                 Logger.Log("Failed to disable QuickEdit.");
-                Logger.Log(ex);
-            }
-
-            try
-            {
-                Config.Initialize();
-            }
-            catch (Exception ex)
-            {
-                Text.Write("Failed to read configuration");
                 Logger.Log(ex);
             }
 
@@ -144,6 +145,7 @@ public class Program
                 lastClipboardString = clipboardString;
             }
 
+            // Sleep the thread temporarily both for performance and to ensure the clipboard can be read properly
             Thread.Sleep(250);
         }
     }
@@ -178,6 +180,20 @@ public class Program
 
                 // Find the stronghold coordinates and print them
                 (double x, double z) = TrigonometryCalculator.GetPointIntersection(throws[throws.Count - 2], throws[throws.Count - 1]);
+
+                x = Math.Round(x);
+                z = Math.Round(z);
+
+                // Changes to coordinates to be x4 z4 in its chunk, which is where the stronghold staircase generates
+                if (Config.ApplyX4Z4Rule)
+                {
+                    double xOffset = x % 16;
+                    double zOffset = z % 16;
+
+                    x = x - xOffset + (xOffset >= 0 ? 4 : -12);
+                    z = z - zOffset + (zOffset >= 0 ? 4 : -12);
+                }
+
                 Text.Write($"Stronghold: X: {Math.Round(x)} Z: {Math.Round(z)}", ConsoleColor.Green);
 
                 // Remove our first throw to make room for another if needed
