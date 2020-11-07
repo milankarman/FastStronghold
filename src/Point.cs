@@ -10,6 +10,12 @@ public class Point
     public double angle;
     public double slope;
 
+    public Point(double x, double z)
+    {
+        this.x = x;
+        this.z = z;
+    }
+
     public Point(double x, double y, double z, double angle)
     {
         this.x = x;
@@ -33,6 +39,10 @@ public class Point
         if (angle > 180)
         {
             return -180 + (angle - 180);
+        }
+        else if (angle < -180)
+        {
+            return +180 + (angle + 180);
         }
 
         return angle;

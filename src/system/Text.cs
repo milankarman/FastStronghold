@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 public static class Text
 {
     private static string TITLE = $"FastStronghold {Constants.VERSION} by Milan Karman";
-    private static string CONTROLS = "[R] Reset - [S] Reset Window Size - [H] Help";
+    private static string CONTROLS = "[R] Reset - [W] Reset Window - [H] Help - [C] Config";
 
     // List to track lines to be output on the screen
     private static List<(string text, ConsoleColor color)> lines = new List<(string text, ConsoleColor color)>();
@@ -45,11 +46,22 @@ public static class Text
             Console.WriteLine("Ready and awaiting clipboard...");
         }
 
+        if (Config.WriteOutputToFile)
+        {
+            File.WriteAllText(Path.Join(Environment.CurrentDirectory, "output.txt"), String.Empty);
+        }
+
         // Fill the console with written lines and pad it with blank lines so the controls can always be at the bottom
         for (int i = 0; i < Console.BufferHeight - 4; i++)
         {
             if (i < lines.Count)
             {
+                // Write current line to output file, if enabled
+                if (Config.WriteOutputToFile)
+                {
+                    File.AppendAllText(Path.Join(Environment.CurrentDirectory, "output.txt"), lines[i].text + Environment.NewLine);
+                }
+
                 Console.ForegroundColor = lines[i].color;
                 Console.WriteLine(lines[i].text);
                 Console.ForegroundColor = ConsoleColor.White;

@@ -4,7 +4,7 @@ using System.Globalization;
 public static class MinecraftCommandParser
 {
     // Parses a F3+C command and turns it into a Point class instance
-    public static Point PointFromCommand(string input)
+    public static Point PointFromF3C(string input)
     {
         string[] coordsStrings = input.Split("@s ")[1].Split(" ");
 

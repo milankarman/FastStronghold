@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading;
@@ -18,19 +19,38 @@ public class Program
             // Set proper window size and title
             Console.Title = "FastStronghold";
             Console.SetWindowSize(1, 1);
-            Console.SetBufferSize(60, 10);
-            Console.SetWindowSize(60, 10);
+            Console.SetBufferSize(Constants.BUFFER_SIZE_X, Constants.BUFFER_SIZE_Y);
+            Console.SetWindowSize(Constants.WINDOW_SIZE_X, Constants.WINDOW_SIZE_Y);
 
-            // Because I'm not fully confident in these features working on every machine
-            // they are caught because they are nice to have, but not essential to the program.
+            // Load all the configuration variables
             try
             {
-                WindowManager.SetAlwaysOnTop();
+                Config.Initialize();
             }
             catch (Exception ex)
             {
-                Logger.Log("Failed to set the window always on top.");
+                Text.Write("Failed to read configuration, this needs to be fixed before using the pgoram. See log.txt for more info.", ConsoleColor.Red);
                 Logger.Log(ex);
+
+                while (true)
+                {
+
+                }
+            }
+
+            // Because I'm not fully confident in these features working on every machine
+            // they are caught because they are nice to have, but not essential to the program.
+            if (Config.AlwaysOnTop)
+            {
+                try
+                {
+                    WindowManager.SetAlwaysOnTop();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log("Failed to set the window always on top.");
+                    Logger.Log(ex);
+                }
             }
 
             try
@@ -41,6 +61,11 @@ public class Program
             {
                 Logger.Log("Failed to disable QuickEdit.");
                 Logger.Log(ex);
+            }
+
+            if (Config.WriteOutputToFile)
+            {
+                File.WriteAllText(Path.Join(Environment.CurrentDirectory, "output.txt"), String.Empty);
             }
 
             // Render default text
@@ -62,16 +87,25 @@ public class Program
                         netherPortalPoint = null;
                         Text.Clear();
                         break;
-                    case ConsoleKey.S:
+
+                    case ConsoleKey.W:
                         Console.SetWindowSize(1, 1);
-                        Console.SetBufferSize(60, 10);
-                        Console.SetWindowSize(60, 10);
+                        Console.SetBufferSize(Constants.BUFFER_SIZE_X, Constants.BUFFER_SIZE_Y);
+                        Console.SetWindowSize(Constants.WINDOW_SIZE_X, Constants.WINDOW_SIZE_Y);
                         Text.Update();
+                        Config.Initialize();
                         break;
+
                     case ConsoleKey.H:
                         Process.Start("explorer.exe", "https://github.com/milankarman/fast-stronghold#usage");
                         Text.Update();
                         break;
+
+                    case ConsoleKey.C:
+                        Process.Start("notepad.exe", Path.Join(Environment.CurrentDirectory, "config.ini"));
+                        Text.Update();
+                        break;
+
                     default:
                         Text.Update();
                         break;
@@ -116,6 +150,7 @@ public class Program
                 lastClipboardString = clipboardString;
             }
 
+            // Sleep the thread temporarily both for performance and to ensure the clipboard can be read properly
             Thread.Sleep(250);
         }
     }
@@ -125,13 +160,21 @@ public class Program
         try
         {
             // Parse command into a point object with coordinates
-            throws.Add(MinecraftCommandParser.PointFromCommand(command));
+            throws.Add(MinecraftCommandParser.PointFromF3C(command));
             Text.Clear();
 
             // If we have done one throw, write it out
             if (throws.Count >= 1)
             {
                 Text.Write($"Throw 1: {throws[0].ToString()}");
+            }
+
+            // If we have only done a single throw and no more, suggest nether travel coordinates
+            if (throws.Count == 1 && Config.ShowNetherTravelSuggestion)
+            {
+                // Calculate where our current angle hits the average stronghold distance for nether travel
+                (double x, double z) = TrigonometryCalculator.GetLineIntersectionOnCircle(throws[0], 216);
+                Text.Write($"Suggested nether travel location: X:{Math.Round(x)} Z:{Math.Round(z)}", ConsoleColor.Cyan);
             }
 
             // If we have done two throws, write out the second throw and triangulate using the two throws
@@ -141,7 +184,46 @@ public class Program
                 Text.Write("");
 
                 // Find the stronghold coordinates and print them
-                (double x, double z) = MinecraftStrongHoldCalculator.Find(throws[throws.Count - 2], throws[throws.Count - 1]);
+                (double x, double z) = TrigonometryCalculator.GetPointIntersection(throws[throws.Count - 2], throws[throws.Count - 1]);
+
+                x = Math.Round(x);
+                z = Math.Round(z);
+
+                // Get the distance from 0, 0 to the stronghold to see if it falls in a stronghold ring
+                int zeroDistance = (int)TrigonometryCalculator.GetDistanceBetweenPoints(new Point(0, 0), new Point(x, z));
+
+                bool inRing = false;
+
+                // Check if the calculated stronghold location falls into a stronghold ring
+                foreach (int[] range in Constants.STRONGHOLD_RINGS)
+                {
+                    if (zeroDistance > range[0] && zeroDistance < range[1])
+                    {
+                        inRing = true;
+                    }
+                }
+
+                if (!inRing)
+                {
+                    Text.Write("Calculated coordinates are not in a stronghold ring.", ConsoleColor.Red);
+                }
+
+                // Check if the angle has changed more than 5 degrees or give a warning of potential innacuracy
+                if ((throws[0].angle + 180) - (throws[1].angle + 180) < 5 && (throws[0].angle + 180) - (throws[1].angle + 180) > -5)
+                {
+                    Text.Write("The angle changed very little, innacuracy likely.", ConsoleColor.Yellow);
+                }
+
+                // Changes to coordinates to be x4 z4 in its chunk, which is where the stronghold staircase generates
+                if (Config.ApplyX4Z4Rule)
+                {
+                    double xOffset = x % 16;
+                    double zOffset = z % 16;
+
+                    x = x - xOffset + (xOffset >= 0 ? 4 : -12);
+                    z = z - zOffset + (zOffset >= 0 ? 4 : -12);
+                }
+
                 Text.Write($"Stronghold: X: {Math.Round(x)} Z: {Math.Round(z)}", ConsoleColor.Green);
 
                 // Remove our first throw to make room for another if needed
@@ -152,7 +234,6 @@ public class Program
         {
             Text.Write("Detected F3+C command on clipboard but it failed to parse.", ConsoleColor.Red);
             Logger.Log(ex);
-
         }
     }
 
@@ -166,28 +247,28 @@ public class Program
             // If we don't have any coordinates set in the nether yet, register our first F3+C input as our portal location
             if (netherPortalPoint == null)
             {
-                netherPortalPoint = MinecraftCommandParser.PointFromCommand(command);
+                netherPortalPoint = MinecraftCommandParser.PointFromF3C(command);
                 Text.Write($"Nether coordinates: {netherPortalPoint.ToString()}", ConsoleColor.Green);
             }
             else
             {
-                Point currentPoint = MinecraftCommandParser.PointFromCommand(command);
-
-                // Calculate the angle from out current location to our registered portal location
-                double angle = (Math.Atan2(currentPoint.x - netherPortalPoint.x, currentPoint.z - netherPortalPoint.z));
-                angle = (-(angle / Math.PI) * 360.0d) / 2.0 + 180.0;
-
-                if (angle > 180)
-                {
-                    angle = -180 + (angle - 180);
-                }
+                Point currentPoint = MinecraftCommandParser.PointFromF3C(command);
 
                 // Calculate the height difference between our current height and the portal height
-                int heightDifference = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
+                int xDistance = (int)Math.Round(netherPortalPoint.x - currentPoint.x);
+                int yDistance = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
+                int zDistance = (int)Math.Round(netherPortalPoint.z - currentPoint.z);
 
-                Text.Write($"Portal coordinates: {netherPortalPoint.ToString()}", ConsoleColor.Green);
-                Text.Write($"Angle to portal: {Math.Round(angle, 1)}");
-                Text.Write($"Portal is {Math.Abs(heightDifference)}{(heightDifference > 0 ? "▲ above" : "▼ below")} you.");
+                // Calculate the angle from out current location to our registered portal location
+                double angle = Math.Round(TrigonometryCalculator.GetAngleAToB(currentPoint, netherPortalPoint), 1);
+
+                // Calculate the distance between your current location and the nether portal location
+                int distance = (int)Math.Round(TrigonometryCalculator.GetDistanceBetweenPoints(currentPoint, netherPortalPoint));
+
+                Text.Write($"Portal coordinates: {netherPortalPoint}", ConsoleColor.Green);
+                Text.Write($"Coordinate difference: X:{xDistance} Y:{yDistance} Z:{zDistance}");
+                Text.Write($"Angle to portal: {angle}");
+                Text.Write($"Distance to portal: {distance} blocks");
             }
         }
         catch (Exception ex)
