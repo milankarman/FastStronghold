@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading;
@@ -23,14 +24,17 @@ public class Program
 
             // Because I'm not fully confident in these features working on every machine
             // they are caught because they are nice to have, but not essential to the program.
-            try
+            if (Config.AlwaysOnTop)
             {
-                WindowManager.SetAlwaysOnTop();
-            }
-            catch (Exception ex)
-            {
-                Logger.Log("Failed to set the window always on top.");
-                Logger.Log(ex);
+                try
+                {
+                    WindowManager.SetAlwaysOnTop();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log("Failed to set the window always on top.");
+                    Logger.Log(ex);
+                }
             }
 
             try
@@ -41,6 +45,21 @@ public class Program
             {
                 Logger.Log("Failed to disable QuickEdit.");
                 Logger.Log(ex);
+            }
+
+            try
+            {
+                Config.Initialize();
+            }
+            catch (Exception ex)
+            {
+                Text.Write("Failed to read configuration");
+                Logger.Log(ex);
+            }
+
+            if (Config.WriteOutputToFile)
+            {
+                File.WriteAllText(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "output.txt"), String.Empty);
             }
 
             // Render default text
@@ -63,15 +82,21 @@ public class Program
                         Text.Clear();
                         break;
 
-                    case ConsoleKey.S:
+                    case ConsoleKey.W:
                         Console.SetWindowSize(1, 1);
                         Console.SetBufferSize(60, 10);
                         Console.SetWindowSize(60, 10);
                         Text.Update();
+                        Config.Initialize();
                         break;
 
                     case ConsoleKey.H:
                         Process.Start("explorer.exe", "https://github.com/milankarman/fast-stronghold#usage");
+                        Text.Update();
+                        break;
+
+                    case ConsoleKey.C:
+                        Process.Start("notepad.exe", Path.Join(AppDomain.CurrentDomain.BaseDirectory, "FastStronghold.dll.config"));
                         Text.Update();
                         break;
 
@@ -138,11 +163,11 @@ public class Program
             }
 
             // If we have only done a single throw and no more, suggest nether travel coordinates
-            if (throws.Count == 1)
+            if (throws.Count == 1 && Config.ShowNetherTravelSuggestion)
             {
                 // Calculate where our current angle hits the average stronghold distance for nether travel
                 (double x, double z) = TrigonometryCalculator.GetLineIntersectionOnCircle(throws[0], 216);
-                Text.Write($"Suggested nether travel location: X:{Math.Round(x)}, Z:{Math.Round(z)}");
+                Text.Write($"Suggested nether travel location: X:{Math.Round(x)}, Z:{Math.Round(z)}", ConsoleColor.Cyan);
             }
 
             // If we have done two throws, write out the second throw and triangulate using the two throws
