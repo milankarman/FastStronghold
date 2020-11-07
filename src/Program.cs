@@ -62,16 +62,19 @@ public class Program
                         netherPortalPoint = null;
                         Text.Clear();
                         break;
+
                     case ConsoleKey.S:
                         Console.SetWindowSize(1, 1);
                         Console.SetBufferSize(60, 10);
                         Console.SetWindowSize(60, 10);
                         Text.Update();
                         break;
+
                     case ConsoleKey.H:
                         Process.Start("explorer.exe", "https://github.com/milankarman/fast-stronghold#usage");
                         Text.Update();
                         break;
+                        
                     default:
                         Text.Update();
                         break;
@@ -132,6 +135,19 @@ public class Program
             if (throws.Count >= 1)
             {
                 Text.Write($"Throw 1: {throws[0].ToString()}");
+
+                // Calculate where our current angle hits the average stronghold distance for nether travel
+                (double x, double z) = TrigonometryCalculator.GetLineIntersectionOnCircle(throws[0]);
+
+                Text.Write($"Suggested nether travel location: X:{Math.Round(x)}, Z:{Math.Round(z)}");
+            }
+
+            // If we have only done a single throw and no more, suggest nether travel coordinates
+            if (throws.Count == 1)
+            {
+                // Calculate where our current angle hits the average stronghold distance for nether travel
+                (double x, double z) = TrigonometryCalculator.GetLineIntersectionOnCircle(throws[0]);
+                Text.Write($"Suggested nether travel location: X:{Math.Round(x)}, Z:{Math.Round(z)}");
             }
 
             // If we have done two throws, write out the second throw and triangulate using the two throws
