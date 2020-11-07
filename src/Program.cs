@@ -60,7 +60,7 @@ public class Program
 
             if (Config.WriteOutputToFile)
             {
-                File.WriteAllText(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "output.txt"), String.Empty);
+                File.WriteAllText(Path.Join(Environment.CurrentDirectory, "output.txt"), String.Empty);
             }
 
             // Render default text
@@ -97,7 +97,7 @@ public class Program
                         break;
 
                     case ConsoleKey.C:
-                        Process.Start("notepad.exe", Path.Join(AppDomain.CurrentDomain.BaseDirectory, "FastStronghold.dll.config"));
+                        Process.Start("notepad.exe", Path.Join(Environment.CurrentDirectory, "config.ini"));
                         Text.Update();
                         break;
 

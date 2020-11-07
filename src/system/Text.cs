@@ -48,7 +48,7 @@ public static class Text
 
         if (Config.WriteOutputToFile)
         {
-            File.WriteAllText(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "output.txt"), String.Empty);
+            File.WriteAllText(Path.Join(Environment.CurrentDirectory, "output.txt"), String.Empty);
         }
 
         // Fill the console with written lines and pad it with blank lines so the controls can always be at the bottom
@@ -59,7 +59,7 @@ public static class Text
                 // Write current line to output file, if enabled
                 if (Config.WriteOutputToFile)
                 {
-                    File.AppendAllText(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "output.txt"), lines[i].text + Environment.NewLine);
+                    File.AppendAllText(Path.Join(Environment.CurrentDirectory, "output.txt"), lines[i].text + Environment.NewLine);
                 }
 
                 Console.ForegroundColor = lines[i].color;

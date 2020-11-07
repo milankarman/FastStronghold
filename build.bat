@@ -1,0 +1,1 @@
+powershell -Command "& {dotnet publish -r win-x64 -c Release -p:PublishSingleFile=true --self-contained true; dotnet publish -r win-x86 -c Release -p:PublishSingleFile=true --self-contained true};"

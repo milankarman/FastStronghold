@@ -1,4 +1,5 @@
-using System.Configuration;
+using IniParser;
+using IniParser.Model;
 
 public static class Config
 {
@@ -9,9 +10,12 @@ public static class Config
 
     public static void Initialize()
     {
-        WriteOutputToFile = bool.Parse(ConfigurationManager.AppSettings.Get("WriteOutputToFile"));
-        ShowNetherTravelSuggestion = bool.Parse(ConfigurationManager.AppSettings.Get("ShowNetherTravelSuggestion"));
-        AlwaysOnTop = bool.Parse(ConfigurationManager.AppSettings.Get("AlwaysOnTop"));
-        ApplyX4Z4Rule = bool.Parse(ConfigurationManager.AppSettings.Get("ApplyX4Z4Rule"));
+        FileIniDataParser parser = new FileIniDataParser();
+        IniData data = parser.ReadFile("config.ini");
+
+        WriteOutputToFile = bool.Parse(data["Settings"]["write_output_to_file"]);
+        ShowNetherTravelSuggestion = bool.Parse(data["Settings"]["show_nether_travel_suggestion"]);
+        AlwaysOnTop = bool.Parse(data["Settings"]["always_on_top"]);
+        ApplyX4Z4Rule = bool.Parse(data["Settings"]["apply_x4_z4_rule"]);
     }
 }
