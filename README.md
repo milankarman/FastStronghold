@@ -38,9 +38,10 @@ There are various stronghold finder tools already available but most of them are
 Using FastStronghold can save you time and lower the chance of your runs being killed by eye breaks by only requiring 2 eye of ender throws and removing manual triangulation steps. All while being extremely accurate if used properly.
 
 ### Features
-* This program reads from the clipboard when you use F3+C, which means there is no need to manually input coordinates.
+* FastStronghold reads from the clipboard when you use F3+C, which means there is no need to manually input coordinates.
 * Super low RAM and CPU usage making it so you don't have to worry about performance.
-* Built in nether portal tracking to help you keep your bearing easily without having a chat or friend backseating you.
+* Uses the 4 4 rule, meaning that if your inputs are accurate you will land perfectly at the starting staircase of the stronghold.
+* Built in nether portal tracking to help you find your way back easily.
 * Small and always on top so it's easy to fit among your other windows, and always visible.
 * Able to output to a text file you can add as text source on your stream overlays.
 * A very minimalistic design showing you only what you need to know without distractions.
@@ -116,7 +117,7 @@ Make sure that you have FastStronghold open before you start your speedrun. Now 
 
 ### Suggested Nether Travel
 
-FastStronghold will display a suggested Nether Travel location once you throw your first eye of ender in the overworld. If you have the resources to do nether travel, then head back into the nether and head to the coordinates that are displayed. Build another portal and enter the overworld there. If everything went right you should be close to the stronghold. Continue triangulating from there.
+FastStronghold will display a suggested nether travel location once you throw your first eye of ender in the overworld. If you have the resources to do nether travel head back into the nether and head to the coordinates that are displayed. Build another portal and enter the overworld there. If everything went right you should be close to the stronghold. Continue triangulating from there.
 
 ### Video Tutorial
 
@@ -139,7 +140,7 @@ FastStronghold will display a suggested Nether Travel location once you throw yo
 
 > *I got a warning about the angle not having changed much.*
 >
-> This warning is there to tell you that because the angle on your two eye throws haven't changed much it's likely that the end result will be innacurate. Try going off your angle even more and doing another throw.
+> This warning is there to tell you that it's likely that the end result will be innacurate because your angles are very close together. Try going off your angle even more and doing another throw. If you know what you're doing you can ignore this warning.
 
 > *I got a warning about the coordinates not being in a stronghold ring*
 >
