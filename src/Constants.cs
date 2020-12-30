@@ -1,6 +1,6 @@
 public static class Constants
 {
-    public static string VERSION = "1.1.0";
+    public static string VERSION = "1.2.0";
 
     public static readonly int WINDOW_SIZE_X = 60;
     public static readonly int WINDOW_SIZE_Y = 11;

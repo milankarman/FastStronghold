@@ -252,23 +252,30 @@ public class Program
             }
             else
             {
-                Point currentPoint = MinecraftCommandParser.PointFromF3C(command);
+                if (Config.ShowAdvancedNetherPortalTracking)
+                {
+                    Point currentPoint = MinecraftCommandParser.PointFromF3C(command);
 
-                // Calculate the height difference between our current height and the portal height
-                int xDistance = (int)Math.Round(netherPortalPoint.x - currentPoint.x);
-                int yDistance = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
-                int zDistance = (int)Math.Round(netherPortalPoint.z - currentPoint.z);
+                    // Calculate the height difference between our current height and the portal height
+                    int xDistance = (int)Math.Round(netherPortalPoint.x - currentPoint.x);
+                    int yDistance = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
+                    int zDistance = (int)Math.Round(netherPortalPoint.z - currentPoint.z);
 
-                // Calculate the angle from out current location to our registered portal location
-                double angle = Math.Round(TrigonometryCalculator.GetAngleAToB(currentPoint, netherPortalPoint), 1);
+                    // Calculate the angle from out current location to our registered portal location
+                    double angle = Math.Round(TrigonometryCalculator.GetAngleAToB(currentPoint, netherPortalPoint), 1);
 
-                // Calculate the distance between your current location and the nether portal location
-                int distance = (int)Math.Round(TrigonometryCalculator.GetDistanceBetweenPoints(currentPoint, netherPortalPoint));
+                    // Calculate the distance between your current location and the nether portal location
+                    int distance = (int)Math.Round(TrigonometryCalculator.GetDistanceBetweenPoints(currentPoint, netherPortalPoint));
 
-                Text.Write($"Portal coordinates: {netherPortalPoint}", ConsoleColor.Green);
-                Text.Write($"Coordinate difference: X:{xDistance} Y:{yDistance} Z:{zDistance}");
-                Text.Write($"Angle to portal: {angle}");
-                Text.Write($"Distance to portal: {distance} blocks");
+                    Text.Write($"Portal coordinates: {netherPortalPoint}", ConsoleColor.Green);
+                    Text.Write($"Coordinate difference: X:{xDistance} Y:{yDistance} Z:{zDistance}");
+                    Text.Write($"Angle to portal: {angle}");
+                    Text.Write($"Distance to portal: {distance} blocks");
+                }
+                if (Config.ShowBlindTravelSuggestion)
+                {
+                    
+                }
             }
         }
         catch (Exception ex)
