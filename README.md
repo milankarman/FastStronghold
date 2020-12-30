@@ -7,8 +7,8 @@
   <p align="center">
     <i>A Minecraft stronghold triangulation tool, optimized for speedrunning.</i>
     <br />
-    <!-- <a href="">Video Tutorial (To be done)</a>
-    - -->
+    <a href="https://www.youtube.com/watch?v=EpxYE8cbNlY">Video Tutorial</a>
+    -
     <a href="../../issues">Report Issue</a>
     -
     <a href="../../issues">Request Feature</a>
@@ -25,6 +25,7 @@
   * [Stronghold Triangulation](#stronghold-triangulation)
   * [Nether Portal Tracking](#nether-portal-tracking)
   * [Suggested Nether Travel](#suggested-nether-travel)
+  * [Blind Nether Travel](#blind-nether-travel)
   * [Video Tutorial](#video-tutorial)
   * [Troubleshooting](#troubleshooting)
 * [Download](#download)
@@ -41,11 +42,12 @@ Using FastStronghold can save you time and lower the chance of your runs being k
 * FastStronghold reads from the clipboard when you use F3+C, which means there is no need to manually input coordinates.
 * Super low RAM and CPU usage making it so you don't have to worry about performance.
 * Uses the 4 4 rule, meaning that if your inputs are accurate you will land perfectly at the starting staircase of the stronghold.
+* Suggests nether travel location after your first eye throw
+* Suggests blind travel location in nether
 * Built in nether portal tracking to help you find your way back easily.
-* Small and always on top so it's easy to fit among your other windows, and always visible.
+* Small and always on top so it's easy to fit among your other windows while always being visible.
 * Able to output to a text file you can add as text source on your stream overlays.
 * A very minimalistic design showing you only what you need to know without distractions.
-* Suggested nether travel location after your first eye throw
 
 ### Screenshots
 <br />
@@ -115,9 +117,15 @@ After doing a run where you have used F3+C it is recommended to reset your throw
 
 Make sure that you have FastStronghold open before you start your speedrun. Now as soon as you enter the nether hit F3+C. FastStronghold will remember that location as your portal location and it will be shown on the FastStronghold display. Now any time you press F3+C while still in the nether FastStronghold will calculate and display in what direction your portal is, how far you are from it and what the coordinate difference between you and your portal is.
 
+
 ### Suggested Nether Travel
 
 FastStronghold will display a suggested nether travel location once you throw your first eye of ender in the overworld. If you have the resources to do nether travel head back into the nether and head to the coordinates that are displayed. Build another portal and enter the overworld there. If everything went right you should be close to the stronghold. Continue triangulating from there.
+
+### Blind Nether Travel
+
+FastStronghold will display a suggested blind nether travel location once you press F3+C while in the nether (after already having set your portal location). This will then show you what
+the closest nether travel location is to teleport to your nearest stronghold ring.
 
 ### Video Tutorial
 
@@ -166,6 +174,8 @@ FastStronghold offers some configuration options you can edit in `config.ini`, w
 | Option | Values | Description |
 |--------|--------|-------------|
 | `write_output_to_file` | `true` / `false` | Writes text on FastStronghold screen to a file. To be used for streaming, as an obs text source. |
-| `show_nether_travel_suggestion` | `true` / `false` | Displays a message recommending where to nether travel from on first eye throw. |
 | `always_on_top` | `true` / `false` | Displays the FastStronghold window over other windows |
 | `apply_x4_z4_rule` | `true` / `false` | Applies the 4 4 rule to the calculated stronghold location, making it point to the entry staircase if the stronghold location is accurate. |
+| `show_nether_travel_suggestion` | `true` / `false` | Displays a message recommending where to nether travel from on first eye throw. |
+| `show_blind_travel_suggestion` | `true` / `false` | Displays a message recommending where to blind nether travel from when pressing F3+C in the nether. |
+| `show_advanced_nether_portal_tracking` | `true` / `false` | Displays a message when pressing F3+C in the nether that shows the angle to your nether portal as well as the distance including distance in each direction. |
