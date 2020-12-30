@@ -48,7 +48,14 @@ public class Point
         return angle;
     }
 
+    // Returns the point coordinates as string
     public override string ToString()
+    {
+        return $"X:{Math.Round(x)} Y:{Math.Round(y)} Z:{Math.Round(z)}";
+    }
+
+    // Returns the point coordinates and angle as string
+    public string ToVerboseString()
     {
         return $"X:{Math.Round(x)} Y:{Math.Round(y)} Z:{Math.Round(z)} | Angle:{Math.Round(GetInGameAngle(), 1)}";
     }

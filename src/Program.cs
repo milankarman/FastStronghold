@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading;
@@ -166,7 +167,7 @@ public class Program
             // If we have done one throw, write it out
             if (throws.Count >= 1)
             {
-                Text.Write($"Throw 1: {throws[0].ToString()}");
+                Text.Write($"Throw 1: {throws[0].ToVerboseString()}");
             }
 
             // If we have only done a single throw and no more, suggest nether travel coordinates
@@ -174,13 +175,14 @@ public class Program
             {
                 // Calculate where our current angle hits the average stronghold distance for nether travel
                 (double x, double z) = TrigonometryCalculator.GetLineIntersectionOnCircle(throws[0], 216);
+                Text.Write("");
                 Text.Write($"Suggested nether travel location: X:{Math.Round(x)} Z:{Math.Round(z)}", ConsoleColor.Cyan);
             }
 
             // If we have done two throws, write out the second throw and triangulate using the two throws
             if (throws.Count >= 2)
             {
-                Text.Write($"Throw 2: {throws[1].ToString()}");
+                Text.Write($"Throw 2: {throws[1].ToVerboseString()}");
                 Text.Write("");
 
                 // Find the stronghold coordinates and print them
@@ -252,23 +254,62 @@ public class Program
             }
             else
             {
+                // Notes down nether portal coordinates
                 Point currentPoint = MinecraftCommandParser.PointFromF3C(command);
-
-                // Calculate the height difference between our current height and the portal height
-                int xDistance = (int)Math.Round(netherPortalPoint.x - currentPoint.x);
-                int yDistance = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
-                int zDistance = (int)Math.Round(netherPortalPoint.z - currentPoint.z);
-
-                // Calculate the angle from out current location to our registered portal location
-                double angle = Math.Round(TrigonometryCalculator.GetAngleAToB(currentPoint, netherPortalPoint), 1);
-
-                // Calculate the distance between your current location and the nether portal location
-                int distance = (int)Math.Round(TrigonometryCalculator.GetDistanceBetweenPoints(currentPoint, netherPortalPoint));
-
                 Text.Write($"Portal coordinates: {netherPortalPoint}", ConsoleColor.Green);
-                Text.Write($"Coordinate difference: X:{xDistance} Y:{yDistance} Z:{zDistance}");
-                Text.Write($"Angle to portal: {angle}");
-                Text.Write($"Distance to portal: {distance} blocks");
+
+                if (Config.ShowAdvancedNetherPortalTracking)
+                {
+                    // Calculate the height difference between our current height and the portal height
+                    int xDistance = (int)Math.Round(netherPortalPoint.x - currentPoint.x);
+                    int yDistance = (int)Math.Round(netherPortalPoint.y - currentPoint.y);
+                    int zDistance = (int)Math.Round(netherPortalPoint.z - currentPoint.z);
+
+                    // Calculate the angle from out current location to our registered portal location
+                    double angle = Math.Round(TrigonometryCalculator.GetAngleAToB(currentPoint, netherPortalPoint), 1);
+
+                    // Calculate the distance between your current location and the nether portal location
+                    int distance = (int)Math.Round(TrigonometryCalculator.GetDistanceBetweenPoints(currentPoint, netherPortalPoint));
+
+                    Text.Write($"Angle: {angle} Distance: {distance}");
+                    Text.Write($"Delta: X:{xDistance} Y:{yDistance} Z:{zDistance}");
+                }
+                if (Config.ShowBlindTravelSuggestion)
+                {
+                    // Keeps track of the distance from the player to all the rings to later find the optimal one
+                    List<(Point, double)> possiblePoints = new List<(Point, double)>();
+
+                    // Loop through stronghold rings to find the closest hit
+                    for (int i = 0; i < Constants.STRONGHOLD_RINGS.Length; i++)
+                    {
+                        // Calculates the optimal radius of the ring we might suggest travelling to
+                        double radius = (Constants.STRONGHOLD_RINGS[i][0] + 318) / 8;
+
+                        // Find the closest point to the player in the stronghold ring that is currently being checked
+                        (double x, double z) = TrigonometryCalculator.FindClosestPointInCircle(currentPoint, radius);
+
+                        Point point = new Point(x, z);
+                        double distanceFromPlayer = TrigonometryCalculator.GetDistanceBetweenPoints(currentPoint, point);
+
+                        possiblePoints.Add((point, distanceFromPlayer));
+
+                        // If the next possible ring hit is further than the last one it means we already know the closest ring
+                        if (i > 1 && possiblePoints[i].Item2 > possiblePoints[i - 1].Item2)
+                        {
+                            break;
+                        }
+                    }
+
+                    // Sort ring points by how far they are from the player
+                    List<(Point, double)> orderedPoints = possiblePoints.OrderBy(point => point.Item2).ToList();
+                    Point suggestedPoint = orderedPoints[0].Item1;
+
+                    // Keep an empty line between blind nether travel and nether portal location
+                    Text.Write("");
+
+                    // Present the player with the closest point
+                    Text.Write($"Blind travel location: X:{Math.Round(suggestedPoint.x)} Z:{Math.Round(suggestedPoint.z)}", ConsoleColor.Cyan);
+                }
             }
         }
         catch (Exception ex)

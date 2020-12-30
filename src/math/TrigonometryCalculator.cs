@@ -64,9 +64,18 @@ public static class TrigonometryCalculator
         double b = 2 * m1 * b1;
         double co = b1 * b1 - radius * radius;
 
-        double xp = ((-1 * b) + (Math.Sign(angle) * Math.Sqrt(b * b -4 * a * co))) / (2 * a);
+        double xp = ((-1 * b) + (Math.Sign(angle) * Math.Sqrt(b * b - 4 * a * co))) / (2 * a);
         double zp = m1 * xp + b1;
 
         return (xp, zp);
+    }
+
+    public static (double, double) FindClosestPointInCircle(Point point, double radius)
+    {
+        double magnitude = Math.Sqrt(point.x * point.x + point.z * point.z);
+        double x = point.x / magnitude * radius;
+        double z = point.z / magnitude * radius;
+
+        return (x, z);
     }
 }
