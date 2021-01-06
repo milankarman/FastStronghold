@@ -15,6 +15,8 @@
   </p>
 </p>
 
+#### ⚠ Warning: as of 06/01/2021 the use of any form of calculator is no longer allowed withing Minecraft speedruns. This includes almost all of the features found in FastStronghold. As such I do not recommend using FastStronghold anymore as it will most certainly invalidate your run. Thank you all for using FastStronghold.
+
 ## Table of Contents
 
 * [About](#about)
