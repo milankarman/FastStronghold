@@ -15,7 +15,7 @@
   </p>
 </p>
 
-#### ⚠ Warning: as of 06/01/2021 the use of any form of calculator is no longer allowed withing Minecraft speedruns. This includes almost all of the features found in FastStronghold. As such I do not recommend using FastStronghold anymore as it will most certainly invalidate your run. Thank you all for using FastStronghold.
+#### ⚠ Warning: as of 06/01/2021 the use of any form of calculator is no longer allowed in Minecraft speedruns. This includes almost all of the features found in FastStronghold. As such I do not recommend using FastStronghold anymore as it will most certainly invalidate your run. Thank you all for using FastStronghold.
 
 ## Table of Contents
 
@@ -84,16 +84,7 @@ Using FastStronghold can save you time and lower the chance of your runs being k
 
 ### Legality
 
-FastStronghold finds the stronghold by reading the coordinates noted in the command that is put on your clipboard by Minecraft when you press F3+C. From there it uses math from the two points you give it to locate the stronghold. This is allowed in current Minecraft speedruns. Quoting the Minecraft speedrunning discord:
-> Q: Is a stronghold finder allowed?
-
-> A: Yes, but no. Any stronghold/structure finder website that asks for seed input is not allowed. You are not allowed to use or see the seed of the world you’re in. However, stronghold calculators that take 2 angles as an input and locates the stronghold using math are allowed.
-
-The built in nether portal tracking works the same way, reading the coordinates from the clipboard when you press F3+C in the nether and calculating the angle towards the first coordinates you set when you entered the nether.
-
-FastStronghold **never** accesses Minecraft's game memory, and anything it can do could be realistically done using math during runs by a stream chatter or backseating friend.
-
-It is important to note that the speedrunning rules are subject to change and there are voices against external programs reading from the clipboard. However with the official ruleset at this moment this tool is completely legal.
+As of 06/01/2021 the use of any form of calculator is no longer allowed un Minecraft speedruns. This includes almost all of the features found in FastStronghold. As such I do not recommend using FastStronghold anymore as it will most certainly invalidate your run.
 
 ## Usage
 
